@@ -1,0 +1,65 @@
+<!-- @dsCard group="Components" viewport="700x380" name="Display" subtitle="Badge · Swatch · LegendRow · EmpireRow" -->
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.26.4/babel.min.js"></script>
+<script src="../../card-support.js"></script>
+<style>
+  body { margin:0; padding:16px; background: var(--paper-5); font-family: var(--font-body); color: var(--ink); }
+  .cap { font-family: monospace; font-size:9.5px; color: var(--ink-soft); margin:10px 0 5px; }
+  .cap:first-child { margin-top:0; }
+</style></head><body>
+<div id="root"></div>
+<script type="text/babel">
+window.loadCardComponents([
+  ["../actions/Button.jsx", "Button"],
+  ["../actions/IconButton.jsx", "IconButton"],
+  ["../actions/LinkChip.jsx", "LinkChip"],
+  ["../forms/SearchField.jsx", "SearchField"],
+  ["../forms/RangeSlider.jsx", "RangeSlider"],
+  ["../surfaces/ParchmentCard.jsx", "ParchmentCard"],
+  ["../surfaces/TornNote.jsx", "TornNote"],
+  ["../surfaces/PhotoFrame.jsx", "PhotoFrame"],
+  ["../surfaces/Rule.jsx", "Rule"],
+  ["../display/Swatch.jsx", "Swatch"],
+  ["../display/Badge.jsx", "Badge"],
+  ["../display/LegendRow.jsx", "LegendRow"],
+  ["../display/EmpireRow.jsx", "EmpireRow"],
+], "../../_ds_bundle.js").then((NS) => {
+const { Badge, Swatch, LegendRow, EmpireRow, ParchmentCard } = NS;
+
+function App() {
+  const [sel, setSel] = React.useState("ottoman");
+  return (
+    <div style={{ display: "flex", gap: 18, alignItems: "flex-start", flexWrap: "wrap" }}>
+      <div style={{ flex: "0 0 240px" }}>
+        <div className="cap">Legend (LegendRow in ParchmentCard)</div>
+        <ParchmentCard translucent style={{ width: 232 }}>
+          <div style={{ fontFamily: "var(--font-display)", fontSize: "var(--text-sm)", letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--crimson)", borderBottom: "1px solid var(--ink-faint)", paddingBottom: 5, marginBottom: 8 }}>1450 AD — 3 realms</div>
+          <LegendRow color="var(--era-2)" name="Ottoman Empire" era="1299–1922 AD" selected={sel === "ottoman"} onClick={() => setSel("ottoman")} />
+          <LegendRow color="var(--era-3)" name="Ming China" era="1368–1644 AD" selected={sel === "ming"} onClick={() => setSel("ming")} />
+          <LegendRow color="var(--era-5)" name="Inca Empire" era="1438–1533 AD" selected={sel === "inca"} onClick={() => setSel("inca")} />
+        </ParchmentCard>
+      </div>
+      <div style={{ flex: 1, minWidth: 280 }}>
+        <div className="cap">Badge + Swatch</div>
+        <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
+          <Badge>Empire</Badge>
+          <Badge>Land</Badge>
+          <span><Swatch color="var(--era-1)" /> <Swatch color="var(--era-4)" /> <Swatch color="var(--era-7)" /></span>
+        </div>
+        <div className="cap">EmpireRow (hoverable, with placeholder thumb)</div>
+        <EmpireRow thumb={null} hoverable name="Achaemenid Persia" era="550–330 BC"
+          blurb="Cyrus and Darius forged history's first great multinational empire."
+          footer="✦ reveal this empire" onClick={() => {}} />
+      </div>
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+});
+
+</script>
+</body></html>

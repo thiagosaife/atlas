@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Atlas of Long Gone Empires</title>
+<meta name="description" content="An interactive atlas of the empires that once ruled each corner of the world." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div id="stage">
+    <header>
+      <h1 id="title">Atlas of Long Gone Empires</h1>
+      <p id="tagline"></p>
+      <div class="rule"></div>
+    </header>
+
+    <div id="map-wrap">
+      <svg id="map" preserveAspectRatio="xMidYMid meet"></svg>
+    </div>
+
+    <!-- Marginalia printed on the sheet: compass, scale bar, projection note -->
+    <div id="chartmarks" aria-hidden="true">
+      <svg class="compass" viewBox="0 0 100 100">
+        <g fill="none" stroke="currentColor" stroke-width="0.7">
+          <circle cx="50" cy="50" r="34" />
+          <circle cx="50" cy="50" r="27" stroke-dasharray="1 3" />
+          <circle cx="50" cy="50" r="9" />
+        </g>
+        <!-- eight-point star: cardinals filled, ordinals hollow -->
+        <g stroke="currentColor" stroke-width="0.6" stroke-linejoin="round">
+          <path d="M50 6 L55 45 L50 50 L45 45 Z" fill="currentColor" />
+          <path d="M50 94 L55 55 L50 50 L45 55 Z" fill="none" />
+          <path d="M6 50 L45 45 L50 50 L45 55 Z" fill="none" />
+          <path d="M94 50 L55 45 L50 50 L55 55 Z" fill="currentColor" />
+          <path d="M22 22 L47 43 L50 50 L43 47 Z" fill="none" />
+          <path d="M78 78 L53 57 L50 50 L57 53 Z" fill="none" />
+          <path d="M78 22 L57 47 L50 50 L53 43 Z" fill="none" />
+          <path d="M22 78 L43 53 L50 50 L47 57 Z" fill="none" />
+        </g>
+        <g fill="currentColor" font-size="8" font-weight="700" text-anchor="middle" font-family="Cinzel, serif">
+          <text x="50" y="4.5">N</text>
+          <text x="50" y="99">S</text>
+          <text x="97" y="53">E</text>
+          <text x="3" y="53">O</text>
+        </g>
+      </svg>
+
+      <div class="cartouche">
+        <div class="scalebar">
+          <svg viewBox="0 0 120 10" preserveAspectRatio="none">
+            <rect x="0" y="2" width="120" height="5" fill="none" stroke="currentColor" stroke-width="0.8" />
+            <rect x="0" y="2" width="30" height="5" fill="currentColor" />
+            <rect x="60" y="2" width="30" height="5" fill="currentColor" />
+          </svg>
+          <span id="scaleValue"></span>
+        </div>
+        <div id="scaleCaption" class="caption"></div>
+        <div id="projectionNote" class="caption"></div>
+        <div id="sheetNote" class="caption"></div>
+      </div>
+    </div>
+
+    <!-- Ingrained grime: uneven soiling across the whole sheet -->
+    <svg id="grime" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect width="100%" height="100%" filter="url(#grime-clouds)" />
+    </svg>
+
+    <!-- One coffee ring, and the fold creases — the sheet has seen field work -->
+    <div id="patina" aria-hidden="true"></div>
+
+    <!-- Pen scribbles a previous owner left on the sheet -->
+    <div id="notes" aria-hidden="true">
+      <span class="note n1"></span>
+      <span class="note n2"></span>
+      <span class="note n3"></span>
+      <span class="note n4"></span>
+      <span class="note n5"></span>
+    </div>
+
+    <!-- A whisper of the active language's flag across the whole sheet -->
+    <div id="tint" aria-hidden="true"></div>
+
+    <div id="search-wrap">
+      <input id="search" type="text" autocomplete="off" spellcheck="false" />
+      <div id="results"></div>
+    </div>
+
+    <div id="legend"></div>
+    <div id="tip"></div>
+
+    <aside id="panel">
+      <button id="panelClose" type="button">✕</button>
+      <div id="panelBody"></div>
+    </aside>
+
+    <div id="timeline">
+      <button id="play" type="button">▶</button>
+      <input id="slider" type="range" />
+      <span id="year"></span>
+      <button id="allEras" type="button"></button>
+      <span id="fontCtl">
+        <button id="fontMinus" type="button">A−</button><!--
+     --><button id="fontPlus" type="button">A+</button>
+      </span>
+      <select id="lang"></select>
+    </div>
+
+    <footer>
+      <span class="swatch"></span> <span id="footerLegend"></span>
+      &nbsp;·&nbsp; <span id="footerCount"></span>
+    </footer>
+
+    <svg id="grain" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <filter id="noise">
+        <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch" />
+      </filter>
+      <rect width="100%" height="100%" filter="url(#noise)" />
+    </svg>
+
+    <!-- tears the straight charred border into a ragged burnt edge -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+      <filter id="burnt-edge" x="-10%" y="-10%" width="120%" height="120%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="5" seed="7" result="n" />
+        <feDisplacementMap in="SourceGraphic" in2="n" scale="26" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+
+      <!-- Nudges the ring off perfect-circle without breaking its round shape:
+           a cup bottom is round, just not drafted with a compass. -->
+      <filter id="stain-edge" x="-15%" y="-15%" width="130%" height="130%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="3" seed="11" result="n" />
+        <feDisplacementMap in="SourceGraphic" in2="n" scale="5" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+
+      <!-- Big soft clouds of grime: the sheet has been handled, folded, and stored badly -->
+      <filter id="grime-clouds" x="0" y="0" width="100%" height="100%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.009" numOctaves="4" seed="5" />
+        <feColorMatrix type="saturate" values="0" />
+        <feComponentTransfer>
+          <feFuncA type="linear" slope="0.55" />
+        </feComponentTransfer>
+      </filter>
+    </svg>
+
+    <div id="loading">UNROLLING THE MAP…</div>
+  </div>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

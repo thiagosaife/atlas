@@ -1,0 +1,23 @@
+/* ============================================================
+   Long Gone Empires — base element defaults
+   ============================================================ */
+body {
+  font-family: var(--font-body);
+  color: var(--text-body);
+}
+
+a {
+  color: var(--crimson);
+  text-decoration: none;
+  border-bottom: var(--underline-link);
+  transition: border-color var(--speed-fast);
+}
+a:hover {
+  border-bottom-style: solid;
+  border-bottom-color: var(--crimson);
+}
+
+::selection {
+  background: rgba(184, 134, 47, 0.35);
+  color: var(--ink);
+}

@@ -1,0 +1,22 @@
+<!-- @dsCard group="Effects" viewport="700x170" name="Motion" subtitle="Quick fades, one slow drawer, a single pulse loop" -->
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin:0; padding:14px 16px; background: var(--paper-5); font-family: var(--font-body); color: var(--ink); }
+  .row { display:flex; gap:10px; flex-wrap:wrap; align-items:flex-start; }
+  .sw { flex:1; min-width:52px; }
+  .chip { height:52px; border:1px solid var(--line-1); }
+  .lbl { font-family: monospace; font-size:9.5px; line-height:1.35; color: var(--ink-soft); margin-top:4px; }
+
+</style></head><body>
+<div class="row" style="align-items:center">
+<svg width="60" height="60" viewBox="0 0 60 60">
+  <circle cx="30" cy="30" r="5" fill="none" stroke="var(--crimson)" stroke-width="1.6" style="animation: ds-pulse 1.9s ease-out infinite"></circle>
+  <circle cx="30" cy="30" r="3" fill="var(--crimson)" stroke="var(--paper-0)" stroke-width="1"></circle>
+</svg>
+<div style="font-size:0.78rem; line-height:1.6; color:var(--ink-soft)">
+<span style="font-family:monospace; font-size:10px">--speed-quick .12s · --speed-fast .15s · --speed-slow .18s</span> — background/opacity fades<br>
+<span style="font-family:monospace; font-size:10px">--speed-drawer .32s + --ease-drawer cubic-bezier(.2,.7,.2,1)</span> — panel slide<br>
+<span style="font-family:monospace; font-size:10px">ds-pulse 1.9s</span> — capital-marker ring, the only loop. No bounces, no scale-on-press.</div>
+</div></body></html>

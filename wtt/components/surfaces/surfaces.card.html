@@ -1,0 +1,60 @@
+<!-- @dsCard group="Components" viewport="700x430" name="Surfaces" subtitle="ParchmentCard · TornNote · PhotoFrame · Rule" -->
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.26.4/babel.min.js"></script>
+<script src="../../card-support.js"></script>
+<style>
+  body { margin:0; padding:16px; background: var(--paper-5); font-family: var(--font-body); color: var(--ink); }
+  .cap { font-family: monospace; font-size:9.5px; color: var(--ink-soft); margin:10px 0 5px; }
+  .cap:first-child { margin-top:0; }
+</style></head><body>
+<div id="root"></div>
+<script type="text/babel">
+window.loadCardComponents([
+  ["../actions/Button.jsx", "Button"],
+  ["../actions/IconButton.jsx", "IconButton"],
+  ["../actions/LinkChip.jsx", "LinkChip"],
+  ["../forms/SearchField.jsx", "SearchField"],
+  ["../forms/RangeSlider.jsx", "RangeSlider"],
+  ["../surfaces/ParchmentCard.jsx", "ParchmentCard"],
+  ["../surfaces/TornNote.jsx", "TornNote"],
+  ["../surfaces/PhotoFrame.jsx", "PhotoFrame"],
+  ["../surfaces/Rule.jsx", "Rule"],
+  ["../display/Swatch.jsx", "Swatch"],
+  ["../display/Badge.jsx", "Badge"],
+  ["../display/LegendRow.jsx", "LegendRow"],
+  ["../display/EmpireRow.jsx", "EmpireRow"],
+], "../../_ds_bundle.js").then((NS) => {
+const { ParchmentCard, TornNote, PhotoFrame, Rule, EmpireRow } = NS;
+
+function App() {
+  return (
+    <div>
+      <div style={{ display: "flex", gap: 18, alignItems: "flex-start", flexWrap: "wrap" }}>
+        <div>
+          <div className="cap">TornNote (tooltip)</div>
+          <TornNote title="Turkey" hint="click to pin for field notes ✦">
+            <EmpireRow name="Ottoman Empire" era="1299–1922 AD" blurb="Six centuries astride three continents." />
+          </TornNote>
+        </div>
+        <div>
+          <div className="cap">PhotoFrame (placeholder)</div>
+          <PhotoFrame alt="field photograph" height={110} style={{ width: 190 }} caption="Machu Picchu, 1911 expedition" />
+        </div>
+      </div>
+      <div className="cap">ParchmentCard + Rule</div>
+      <ParchmentCard translucent style={{ maxWidth: 420, textAlign: "center", padding: "12px 18px" }}>
+        <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, letterSpacing: "var(--track-hero)", fontSize: "1.05rem" }}>Atlas of Long Gone Empires</div>
+        <Rule width="70%" />
+      </ParchmentCard>
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+});
+
+</script>
+</body></html>

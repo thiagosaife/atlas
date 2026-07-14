@@ -1,0 +1,37 @@
+/* ============================================================
+   Long Gone Empires — scrollbars
+   A worn brass rail set into the parchment. Global: any
+   scrollable region picks this up automatically.
+   ============================================================ */
+/* Standard properties are the Firefox fallback only: in Chromium/WebKit,
+   setting scrollbar-color disables the richer ::-webkit-scrollbar styling. */
+@supports not selector(::-webkit-scrollbar) {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--line-3) rgba(90, 58, 30, 0.12);
+  }
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(90, 58, 30, 0.12);            /* recessed groove */
+  border: 1px solid rgba(90, 58, 30, 0.22);
+  box-shadow: inset 1px 1px 3px rgba(30, 16, 6, 0.25);
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #b8945f 0%, #8a6b3e 100%);   /* aged brass */
+  border: 1px solid var(--ink-soft);
+  box-shadow: inset 1px 1px 0 rgba(244, 231, 200, 0.35);           /* worn highlight */
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #c6a163 0%, #9c7c4c 100%);
+}
+::-webkit-scrollbar-thumb:active {
+  background: var(--gold);
+}
+::-webkit-scrollbar-corner {
+  background: transparent;
+}

@@ -1,0 +1,18 @@
+<!-- @dsCard group="Effects" viewport="700x170" name="Borders" subtitle="Square corners; brass lines do the framing" -->
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin:0; padding:14px 16px; background: var(--paper-5); font-family: var(--font-body); color: var(--ink); }
+  .row { display:flex; gap:10px; flex-wrap:wrap; align-items:flex-start; }
+  .sw { flex:1; min-width:52px; }
+  .chip { height:52px; border:1px solid var(--line-1); }
+  .lbl { font-family: monospace; font-size:9.5px; line-height:1.35; color: var(--ink-soft); margin-top:4px; }
+
+</style></head><body>
+<div class="row">
+<div style="flex:1; min-width:120px; border:var(--border-card); background:var(--paper-2); padding:10px; font-size:0.74rem">--border-card<br><span class="lbl">1px solid --line-1</span></div>
+<div style="flex:1; min-width:120px; border-left:var(--border-panel); background:var(--paper-2); padding:10px; font-size:0.74rem">--border-panel<br><span class="lbl">3px double --line-2 (drawers)</span></div>
+<div style="flex:1; min-width:120px; border:var(--border-control); background:var(--paper-2); padding:10px; font-size:0.74rem">--border-control<br><span class="lbl">1px solid --ink-soft</span></div>
+<div style="flex:1; min-width:120px; background:var(--paper-2); padding:10px; font-size:0.74rem"><span style="border-bottom:var(--underline-link); color:var(--crimson)">inline link</span><br><span class="lbl">1px dotted crimson</span></div>
+</div></body></html>

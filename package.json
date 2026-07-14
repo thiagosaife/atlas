@@ -1,0 +1,32 @@
+{
+  "name": "atlas-of-long-gone-empires",
+  "version": "1.0.0",
+  "description": "An interactive atlas of the empires that once ruled each corner of the world.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "npm run validate && npm run typecheck && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p scripts",
+    "validate": "tsx scripts/validate-data.ts"
+  },
+  "dependencies": {
+    "d3-geo": "^3.1.1",
+    "d3-selection": "^3.0.0",
+    "d3-transition": "^3.0.1",
+    "d3-zoom": "^3.0.0",
+    "topojson-client": "^3.1.0"
+  },
+  "devDependencies": {
+    "@types/d3-geo": "^3.1.0",
+    "@types/d3-selection": "^3.0.11",
+    "@types/d3-transition": "^3.0.9",
+    "@types/d3-zoom": "^3.0.8",
+    "@types/node": "^26.1.1",
+    "@types/topojson-client": "^3.1.5",
+    "@types/topojson-specification": "^1.0.5",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.5"
+  }
+}

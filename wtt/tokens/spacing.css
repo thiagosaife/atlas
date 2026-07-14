@@ -1,0 +1,30 @@
+/* ============================================================
+   Long Gone Empires — spacing tokens
+   Dense, hand-set spacing. The source uses exact odd values
+   (5px 9px buttons, 8px 12px inputs) — copy them, don't snap
+   to a 4/8 grid.
+   ============================================================ */
+:root {
+  --space-2: 2px;
+  --space-4: 4px;
+  --space-6: 6px;
+  --space-8: 8px;
+  --space-10: 10px;
+  --space-12: 12px;
+  --space-14: 14px;
+  --space-18: 18px;
+  --space-22: 22px;
+
+  /* ---- Component paddings, verbatim from the app ---- */
+  --pad-button: 5px 9px;
+  --pad-button-sm: 4px 6px;
+  --pad-input: 8px 12px;
+  --pad-note: 12px 14px 13px;    /* torn-note tooltip */
+  --pad-chip: 4px 9px;           /* link chips */
+  --pad-legend: 10px 12px;
+  --pad-bar: 10px 18px;          /* timeline bar */
+
+  /* Radius: the world is square. Only round circles are legal. */
+  --radius-none: 0;
+  --radius-full: 50%;
+}

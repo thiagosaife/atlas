@@ -1,0 +1,61 @@
+<!-- @dsCard group="Components" viewport="700x360" name="Forms" subtitle="SearchField · RangeSlider" -->
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.26.4/babel.min.js"></script>
+<script src="../../card-support.js"></script>
+<style>
+  body { margin:0; padding:16px; background: var(--paper-5); font-family: var(--font-body); color: var(--ink); }
+  .cap { font-family: monospace; font-size:9.5px; color: var(--ink-soft); margin:10px 0 5px; }
+  .cap:first-child { margin-top:0; }
+</style></head><body>
+<div id="root"></div>
+<script type="text/babel">
+window.loadCardComponents([
+  ["../actions/Button.jsx", "Button"],
+  ["../actions/IconButton.jsx", "IconButton"],
+  ["../actions/LinkChip.jsx", "LinkChip"],
+  ["../forms/SearchField.jsx", "SearchField"],
+  ["../forms/RangeSlider.jsx", "RangeSlider"],
+  ["../surfaces/ParchmentCard.jsx", "ParchmentCard"],
+  ["../surfaces/TornNote.jsx", "TornNote"],
+  ["../surfaces/PhotoFrame.jsx", "PhotoFrame"],
+  ["../surfaces/Rule.jsx", "Rule"],
+  ["../display/Swatch.jsx", "Swatch"],
+  ["../display/Badge.jsx", "Badge"],
+  ["../display/LegendRow.jsx", "LegendRow"],
+  ["../display/EmpireRow.jsx", "EmpireRow"],
+], "../../_ds_bundle.js").then((NS) => {
+const { SearchField, RangeSlider, Button } = NS;
+
+function App() {
+  const [q, setQ] = React.useState("ot");
+  const [year, setYear] = React.useState(1450);
+  const results = q ? [
+    { kind: "Empire", name: "Ottoman Empire", meta: "1299–1922 AD" },
+    { kind: "Empire", name: "Scottish Kingdom", meta: "843–1707 AD" },
+    { kind: "Land", name: "Botswana", meta: "2 empires" },
+  ] : [];
+  const fmt = (y) => (y < 0 ? Math.abs(y) + " BC" : y + " AD");
+  return (
+    <div>
+      <div className="cap">SearchField with results dropdown</div>
+      <SearchField value={q} onChange={setQ} results={results} onSelect={() => {}} width={260} />
+      <div className="cap">RangeSlider in a timeline bar</div>
+      <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 18px",
+        background: "linear-gradient(135deg, rgba(242,227,192,.94), rgba(220,199,159,.94))",
+        border: "var(--border-card)", boxShadow: "var(--shadow-float)", maxWidth: 480 }}>
+        <Button>▶</Button>
+        <RangeSlider min={-4500} max={2000} step={25} value={year} onChange={setYear} />
+        <span style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--text-lg)", minWidth: 74, textAlign: "center" }}>{fmt(year)}</span>
+      </div>
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+});
+
+</script>
+</body></html>

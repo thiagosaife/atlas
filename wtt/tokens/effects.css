@@ -1,0 +1,46 @@
+/* ============================================================
+   Long Gone Empires — shadows, borders, texture, motion
+   ============================================================ */
+:root {
+  /* ---- Shadows (warm umber, never grey) ---- */
+  --shadow-chip: 1px 2px 4px rgba(30, 16, 6, 0.35);
+  --shadow-input: 2px 3px 8px rgba(30, 16, 6, 0.32);
+  --shadow-float: 2px 4px 12px rgba(30, 16, 6, 0.4);    /* bars, legend */
+  --shadow-note: 3px 6px 14px rgba(30, 16, 6, 0.5);     /* tooltips */
+  --shadow-drawer: -8px 0 24px rgba(30, 16, 6, 0.4);    /* side panel */
+
+  /* Distressed screen vignette (apply to a ::before overlay) */
+  --vignette:
+    inset 0 0 60px 12px rgba(60, 34, 12, 0.55),
+    inset 0 0 160px 40px rgba(40, 22, 8, 0.65),
+    inset 0 0 8px 2px rgba(20, 10, 4, 0.8);
+
+  /* ---- Borders ---- */
+  --border-card: 1px solid var(--line-1);
+  --border-control: 1px solid var(--ink-soft);
+  --border-frame: 1px solid var(--line-3);
+  --border-panel: 3px double var(--line-2);
+  --border-swatch: 1px solid var(--ink);
+  --underline-link: 1px dotted rgba(138, 47, 34, 0.5);
+
+  /* ---- Artefact tilt: paper is never perfectly straight ---- */
+  --tilt-note: rotate(-0.6deg);
+  --tilt-frame: rotate(-0.5deg);
+
+  /* ---- Imagery: every photo is a sepia field photograph ---- */
+  --filter-sepia: sepia(0.35) saturate(0.85) contrast(0.97);
+  --filter-sepia-strong: sepia(0.35) saturate(0.9) contrast(0.97);
+
+  /* ---- Motion: quick fades, one slow drawer, no bounces ---- */
+  --speed-quick: 0.12s;
+  --speed-fast: 0.15s;
+  --speed-slow: 0.18s;
+  --speed-drawer: 0.32s;
+  --ease-drawer: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* Marker pulse — the only looping animation in the system */
+@keyframes ds-pulse {
+  0%   { r: 5;  opacity: 0.6; }
+  100% { r: 11; opacity: 0; }
+}

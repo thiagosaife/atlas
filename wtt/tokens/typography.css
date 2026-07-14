@@ -1,0 +1,43 @@
+/* ============================================================
+   Long Gone Empires — typography tokens
+   Two faces only:
+   - Cinzel (display): titles, buttons, labels, names of things
+   - IM Fell English (body): prose, blurbs, italic asides
+   Fonts load from Google Fonts (no local binaries were provided).
+   ============================================================ */
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=IM+Fell+English:ital@0;1&display=swap");
+
+:root {
+  --font-display: "Cinzel", serif;
+  --font-body: "IM Fell English", Georgia, serif;
+
+  /* ---- Size scale (rem so A−/A+ page scaling works) ---- */
+  --text-2xs: 0.6rem;    /* kind chips (EMPIRE / LAND) */
+  --text-xs: 0.68rem;    /* footnotes, jump hints, small labels */
+  --text-sm: 0.72rem;    /* legend headings, link chips */
+  --text-md: 0.78rem;    /* buttons, subtitles */
+  --text-base: 0.84rem;  /* body prose, blurbs */
+  --text-lg: 0.92rem;    /* inputs, year readout */
+  --text-xl: 0.95rem;    /* empire names in lists */
+  --text-2xl: 1.15rem;   /* panel headings */
+  --text-hero: clamp(1.2rem, 3.4vw, 2.5rem);   /* page title */
+
+  /* ---- Tracking ---- */
+  --track-hero: 0.14em;     /* page title */
+  --track-label: 0.14em;    /* uppercase labels (0.12–0.16em range) */
+  --track-button: 0.06em;
+  --track-name: 0.08em;     /* headings, link chips */
+
+  /* ---- Weights (Cinzel only; IM Fell has one weight) ---- */
+  --weight-display: 700;
+  --weight-name: 600;
+
+  --leading-tight: 1.2;
+  --leading-body: 1.45;
+  --leading-loose: 1.55;
+
+  /* Title relief: light paper edge above, soft cast below */
+  --text-shadow-hero: 1px 1px 0 rgba(255, 246, 222, 0.35), 2px 3px 6px rgba(30, 16, 6, 0.35);
+  /* Map-label halo: paper-coloured stroke behind Cinzel text */
+  --text-halo: #f2e3c0;
+}

@@ -1,0 +1,833 @@
+/* The design system owns colour, type, spacing, shadows, and scrollbars.
+   Nothing below re-declares a colour: it all comes from wtt/tokens. */
+@import "../../wtt/styles.css";
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--night);
+  font-family: var(--font-body);
+  color: var(--ink);
+  overflow: hidden;
+}
+
+#stage {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  /* Soiled parchment: broad uneven tea-toning laid over the clean paper glow,
+     so no two corners of the sheet are quite the same shade. */
+  background-image:
+    radial-gradient(ellipse 55% 45% at 18% 24%, rgba(120, 84, 44, 0.14), transparent 70%),
+    radial-gradient(ellipse 45% 50% at 82% 68%, rgba(112, 76, 40, 0.16), transparent 70%),
+    radial-gradient(ellipse 60% 35% at 60% 12%, rgba(128, 92, 50, 0.1), transparent 70%),
+    radial-gradient(ellipse 40% 40% at 30% 88%, rgba(104, 68, 34, 0.13), transparent 70%),
+    var(--surface-page);
+}
+
+/* Burnt-paper screen edge: a charred rim torn ragged by SVG turbulence,
+   as though the page survived a fire. */
+#stage::before {
+  content: "";
+  position: absolute;
+  inset: -18px;
+  pointer-events: none;
+  z-index: 40;
+  border: 34px solid #140a04;
+  box-shadow:
+    inset 0 0 0 5px rgba(58, 30, 10, 0.9),
+    inset 0 0 16px 9px rgba(40, 22, 8, 0.75);
+  filter: url(#burnt-edge);
+}
+/* the scorch that fades the char into the parchment */
+#stage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 39;
+  box-shadow: var(--vignette);
+}
+
+#grain {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  pointer-events: none;
+  opacity: 0.16;
+  mix-blend-mode: multiply;
+}
+
+/* ---- Grime: the sheet has been handled, folded, and stored badly ----
+   Large soft turbulence clouds soil the paper unevenly. This is what makes it
+   read as *dirty* rather than merely aged — the film grain alone is too even. */
+#grime {
+  position: absolute;
+  inset: 0;
+  z-index: 11;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  opacity: 0.44;
+  /* the clouds render grey; warm them so the soiling stays on old paper, and
+     add contrast so the blotches read as soiling rather than a flat grey wash */
+  filter: sepia(1) saturate(1.7) contrast(1.45) brightness(1.06);
+}
+
+/* ---- Patina: one coffee ring, plus the folds ----
+   The ring is a generated SVG (scripts/gen-coffee-ring.mjs): a real one has an
+   irregular rim that pools into fat lobes, creeps thin enough to nearly break,
+   and carries dark specks of grounds — none of which a CSS gradient can fake.
+   Sits above the map so it reads as spilled *on* the chart, but below the
+   floating chrome so nothing legible is obscured; `multiply` lets the geography
+   show through the liquid. */
+#patina {
+  position: absolute;
+  inset: 0;
+  z-index: 12;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  opacity: 0.82;
+  background-repeat: no-repeat;
+  background-image: url("../assets/coffee-ring.svg");
+  /* out in the South Pacific: clear of the land, the legend, and the timeline bar */
+  background-position: 13% 62%;
+  background-size: clamp(195px, 19.5vw, 293px);
+}
+
+/* Foxing: the small rust-brown age spots that bloom on stored paper. */
+#patina::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-repeat: no-repeat;
+  background-image:
+    radial-gradient(circle at 31% 22%, rgba(112, 70, 34, 0.16) 0 3px, transparent 5px),
+    radial-gradient(circle at 34% 26%, rgba(112, 70, 34, 0.1) 0 2px, transparent 4px),
+    radial-gradient(circle at 68% 14%, rgba(112, 70, 34, 0.13) 0 4px, transparent 6px),
+    radial-gradient(circle at 79% 47%, rgba(112, 70, 34, 0.11) 0 3px, transparent 5px),
+    radial-gradient(circle at 47% 84%, rgba(112, 70, 34, 0.14) 0 4px, transparent 6px),
+    radial-gradient(circle at 52% 88%, rgba(112, 70, 34, 0.09) 0 2px, transparent 4px),
+    radial-gradient(circle at 88% 72%, rgba(112, 70, 34, 0.12) 0 3px, transparent 5px),
+    radial-gradient(circle at 8% 45%, rgba(112, 70, 34, 0.1) 0 3px, transparent 5px),
+    radial-gradient(circle at 61% 61%, rgba(112, 70, 34, 0.08) 0 2px, transparent 4px);
+}
+
+/* Fold creases: a dark valley with a lit ridge beside it, as paper folds do.
+   Filtered so they waver — a folded sheet never creases in a straight line. */
+#patina::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  filter: url(#stain-edge);
+  background-repeat: no-repeat;
+  background-image:
+    /* vertical fold, left third */
+    linear-gradient(90deg, transparent 32.6%, rgba(70, 44, 20, 0.1) 33%,
+      rgba(255, 246, 222, 0.22) 33.4%, transparent 33.8%),
+    /* horizontal fold, across the middle */
+    linear-gradient(0deg, transparent 51.6%, rgba(70, 44, 20, 0.09) 52%,
+      rgba(255, 246, 222, 0.2) 52.4%, transparent 52.8%),
+    /* a shorter diagonal dent, top right */
+    linear-gradient(24deg, transparent 78.6%, rgba(70, 44, 20, 0.06) 79%,
+      rgba(255, 246, 222, 0.13) 79.3%, transparent 79.7%);
+}
+
+/* ---- Pen scribbles ----
+   A previous owner's hand, in faded iron-gall ink. These are drawn pen strokes
+   (scripts/gen-handwriting.mjs), not type: a font repeats identical glyphs and
+   always gives itself away. Above the stain, below the chrome, never clickable. */
+#notes {
+  position: absolute;
+  inset: 0;
+  z-index: 13;
+  pointer-events: none;
+  /* main.ts applies the map's own pan/zoom here, so the notes ride the chart.
+     The origin must be the stage corner to match the map's coordinate space. */
+  transform-origin: 0 0;
+}
+#notes .note {
+  position: absolute;
+  display: block;
+  height: clamp(19px, 2.7vw, 34px);
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: 0.36; /* faded — a note, not a caption */
+  mix-blend-mode: multiply;
+}
+/* Each sits over empty water or desert, clear of the cartouche and the legend.
+   Aspect ratios come from the generator's output. */
+#notes .n1 {
+  top: 64%; left: 39%; transform: rotate(-3deg);
+  aspect-ratio: 6.5; background-image: url("../assets/note-1.svg");
+}
+#notes .n2 {
+  top: 44%; left: 45%; transform: rotate(2deg);
+  aspect-ratio: 4.61; background-image: url("../assets/note-2.svg");
+}
+#notes .n3 {
+  top: 40%; left: 56%; transform: rotate(-1.5deg);
+  aspect-ratio: 7.8; background-image: url("../assets/note-3.svg");
+}
+#notes .n4 {
+  top: 31%; left: 70%; transform: rotate(3.5deg); opacity: 0.32;
+  aspect-ratio: 5.13; background-image: url("../assets/note-4.svg");
+}
+#notes .n5 {
+  top: 76%; left: 26%; transform: rotate(-2deg);
+  aspect-ratio: 5.15; background-image: url("../assets/note-5.svg");
+}
+
+@media (max-width: 640px) {
+  /* a small sheet has no room for marginalia */
+  #notes { display: none; }
+}
+
+/* ---- Locale tint ----
+   The faintest wash of the active language's flag over the whole sheet: the
+   French tricolour reads left-to-right, the Union flag pools in the corners.
+   Kept to a whisper — it should register as a mood, never as a graphic. */
+#tint {
+  position: absolute;
+  inset: 0;
+  z-index: 31;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  opacity: 0.06;
+  transition: opacity var(--speed-drawer) ease;
+}
+:root[data-locale="fr"] #tint {
+  background-image: linear-gradient(
+    100deg,
+    rgba(46, 61, 92, 0.62) 0%,
+    rgba(46, 61, 92, 0) 34%,
+    rgba(138, 47, 34, 0) 66%,
+    rgba(138, 47, 34, 0.62) 100%
+  );
+}
+:root[data-locale="en"] #tint {
+  background-image:
+    radial-gradient(ellipse 45% 45% at 50% 50%, rgba(138, 47, 34, 0.4), transparent 70%),
+    linear-gradient(135deg, rgba(46, 61, 92, 0.55) 0%, transparent 24%),
+    linear-gradient(225deg, rgba(46, 61, 92, 0.55) 0%, transparent 24%),
+    linear-gradient(45deg, rgba(46, 61, 92, 0.55) 0%, transparent 24%),
+    linear-gradient(315deg, rgba(46, 61, 92, 0.55) 0%, transparent 24%);
+}
+
+/* ---- Chart marginalia ---- */
+#chartmarks {
+  position: absolute;
+  inset: 0;
+  z-index: 11;
+  pointer-events: none;
+  color: var(--ink);
+  /* printed on the sheet, not competing with the data — but the vignette
+     already darkens the corners these sit in, so don't fade them further */
+  opacity: 0.3;
+  mix-blend-mode: multiply;
+}
+#chartmarks .compass {
+  position: absolute;
+  right: 8%;
+  bottom: 25%;
+  width: clamp(72px, 9vw, 122px);
+  height: auto;
+}
+#chartmarks .cartouche {
+  position: absolute;
+  left: 6.5%;
+  top: 23%;
+  width: 160px;
+}
+#chartmarks .scalebar {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+#chartmarks .scalebar svg {
+  width: 108px;
+  height: 9px;
+  flex: 0 0 auto;
+}
+#chartmarks .scalebar span {
+  font-family: var(--font-display);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+#chartmarks .caption {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 0.62rem;
+  letter-spacing: 0.05em;
+  margin-top: 3px;
+  line-height: 1.3;
+}
+
+/* Chart lines drawn in map space — they pan and zoom with the geography. */
+.chartline {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 0.7px;
+  stroke-dasharray: 6 4;
+  opacity: 0.28;
+  vector-effect: non-scaling-stroke;
+}
+.chartlabel {
+  font-family: var(--font-display);
+  font-size: 0.5rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  fill: var(--ink);
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+@media (max-width: 640px) {
+  /* the sheet is small enough already — keep the marginalia out of the way */
+  #chartmarks .cartouche { display: none; }
+  #chartmarks .compass { right: 3%; bottom: 24%; width: 64px; }
+}
+
+/* ---- Header ---- */
+header {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  z-index: 20;
+  text-align: center;
+  padding: 18px 20px 8px;
+  pointer-events: none;
+}
+header h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: var(--track-hero);
+  font-size: clamp(1.2rem, 3.4vw, 2.5rem);
+  margin: 0;
+  color: var(--ink);
+  text-shadow: var(--text-shadow-hero);
+}
+header p {
+  font-style: italic;
+  margin: 3px 0 0;
+  font-size: clamp(0.78rem, 1.5vw, 1.02rem);
+  color: var(--ink-soft);
+  letter-spacing: 0.04em;
+}
+header .rule {
+  width: min(340px, 60%);
+  height: 14px;
+  margin: 6px auto 0;
+  /* relative so Vite fingerprints and bundles it (an absolute /wtt/… would 404 in dist) */
+  background: no-repeat center/contain url("../../wtt/assets/textures/rule-compass.svg");
+  opacity: 0.8;
+}
+
+/* ---- Map ---- */
+#map-wrap { position: absolute; inset: 0; z-index: 10; }
+svg#map { width: 100%; height: 100%; display: block; cursor: grab; }
+svg#map.grabbing { cursor: grabbing; }
+
+/* line weights stay constant at any zoom */
+.country, .graticule, .route { vector-effect: non-scaling-stroke; }
+
+.country {
+  fill: var(--land);
+  stroke: var(--line-4);
+  stroke-width: 0.4px;
+  transition: fill var(--speed-slow) ease, opacity var(--speed-slow) ease;
+  cursor: default;
+}
+.country.has-empire { fill: var(--land-empire); cursor: pointer; }
+.country.dim { fill: var(--land); opacity: 0.55; }
+.country.era-on { fill: var(--land-hover); stroke: var(--ink); stroke-width: 0.55px; }
+.country.pinned { fill: var(--land-hover); stroke: var(--ink); stroke-width: 1.1px; }
+.country.active {
+  fill: var(--land-hover) !important;
+  stroke: var(--ink);
+  stroke-width: 0.8px;
+  opacity: 1 !important;
+}
+/* a revealed empire stays vivid; the rest of the world recedes */
+.country.focus { stroke: var(--crimson); stroke-width: 1.8px; opacity: 1 !important; }
+.country.backdrop { opacity: 0.28; }
+
+.graticule {
+  fill: none;
+  stroke: var(--line-5);
+  stroke-width: 0.35px;
+  stroke-dasharray: 2 3;
+  opacity: 0.35;
+}
+.sphere { fill: var(--sea); }
+
+/* ---- Volume ----
+   The disc is a sphere: it falls away into shadow at the limb, and catches the
+   light up and to the left. Painted through the sphere path itself, so the
+   shading follows the projection and never spills onto the paper margin. */
+.globe-shade,
+.globe-light {
+  pointer-events: none;
+}
+.globe-shade {
+  fill: url(#globe-shade);
+  mix-blend-mode: multiply;
+}
+.globe-light {
+  fill: url(#globe-light);
+  mix-blend-mode: screen;
+  opacity: 0.6;
+}
+
+/* ---- Capital markers ---- */
+.marker { pointer-events: none; }
+.marker circle.ring {
+  fill: none;
+  stroke: var(--crimson);
+  stroke-width: 1px;
+  opacity: 0.55;
+  animation: ds-pulse 1.9s ease-out infinite;
+}
+.marker circle.dot { fill: var(--crimson); stroke: var(--paper-0); stroke-width: 1px; }
+.marker text {
+  font-family: var(--font-display);
+  font-size: 0.5625rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  fill: var(--ink);
+  paint-order: stroke;
+  stroke: var(--paper-1);
+  stroke-width: 2.6px;
+  stroke-linejoin: round;
+}
+.marker.faded { opacity: 0.25; }
+.marker.focused circle.ring { stroke-width: 1.6px; }
+.marker.focused text { font-size: 0.75rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  .marker circle.ring { animation: none; }
+  .country { transition: none; }
+}
+
+/* ---- Tooltip (torn note) ---- */
+#tip {
+  position: absolute;
+  z-index: 50;
+  max-width: 290px;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(6px) var(--tilt-note);
+  transition: opacity var(--speed-fast) ease, transform var(--speed-fast) ease;
+  background: var(--surface-note);
+  color: var(--ink);
+  padding: 12px 14px 13px;
+  border: var(--border-card);
+  box-shadow: var(--shadow-note);
+}
+#tip.show { opacity: 1; transform: translateY(0) var(--tilt-note); }
+#tip .modern {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.68rem;
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--crimson);
+  border-bottom: 1px solid var(--ink-faint);
+  padding-bottom: 4px;
+  margin-bottom: 7px;
+}
+#tip .hint {
+  font-size: 0.7rem;
+  font-style: italic;
+  color: var(--gold);
+  margin-top: 8px;
+  text-align: right;
+}
+
+#tip ul, #panel ul { list-style: none; margin: 0; padding: 0; }
+#tip li { margin: 0 0 8px; }
+#tip li:last-child { margin-bottom: 0; }
+
+.empire {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--ink);
+}
+.era { font-style: italic; font-size: 0.76rem; color: var(--gold); margin-left: 6px; }
+.blurb {
+  display: block;
+  font-size: var(--text-base);
+  line-height: 1.35;
+  color: var(--ink-soft);
+  margin-top: 1px;
+}
+
+/* ---- Drawer ---- */
+#panel {
+  position: absolute;
+  top: 0; right: 0;
+  z-index: 45;
+  height: 100%;
+  width: min(340px, 84vw);
+  padding: 74px 22px 120px;
+  background: var(--surface-panel);
+  border-left: var(--border-panel);
+  box-shadow: var(--shadow-drawer);
+  transform: translateX(105%);
+  transition: transform var(--speed-drawer) var(--ease-drawer);
+  overflow-y: auto;
+}
+#panel.open { transform: translateX(0); }
+#panel h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.15rem;
+  letter-spacing: 0.08em;
+  margin: 0 0 2px;
+  color: var(--ink);
+}
+#panel .sub {
+  font-style: italic;
+  color: var(--crimson);
+  font-size: 0.8rem;
+  margin-bottom: 14px;
+  letter-spacing: 0.05em;
+}
+#panel li {
+  margin: 0 0 14px;
+  padding: 8px 10px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background var(--speed-fast), border-color var(--speed-fast);
+}
+#panel li:hover { background: var(--surface-hover); border-color: var(--gold); }
+#panel li .jump {
+  display: block;
+  font-size: 0.68rem;
+  font-style: italic;
+  color: var(--gold);
+  margin-top: 4px;
+}
+#panelClose {
+  position: absolute;
+  top: 66px; right: 18px;
+  z-index: 2;
+  background: none;
+  border: var(--border-control);
+  color: var(--ink);
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1rem;
+  font-family: var(--font-display);
+  line-height: 1;
+  transition: background var(--speed-fast);
+}
+#panelClose:hover { background: var(--surface-selected); }
+
+/* ---- Timeline bar ---- */
+#timeline {
+  position: absolute;
+  left: 50%;
+  bottom: 46px;
+  transform: translateX(-50%);
+  z-index: 25;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: min(760px, 92vw);
+  padding: 10px 18px;
+  background: var(--surface-panel);
+  border: var(--border-card);
+  box-shadow: var(--shadow-float);
+}
+#timeline button,
+#lang {
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  background: var(--surface-control);
+  color: var(--ink);
+  border: var(--border-control);
+  padding: 5px 9px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background var(--speed-fast);
+}
+/* `#lang` is excluded: the shorthand would wipe its flag background-image.
+   Its own hover rule sets only background-color. */
+#timeline button:hover { background: var(--land-hover); }
+#slider { flex: 1; accent-color: var(--crimson); cursor: pointer; height: 4px; }
+#year {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.92rem;
+  letter-spacing: 0.05em;
+  color: var(--ink);
+  min-width: 104px;
+  text-align: center;
+  white-space: nowrap;
+}
+#allEras { display: none; }
+#allEras.show { display: inline-block; }
+
+#fontCtl {
+  display: inline-flex;
+  padding-left: 10px;
+  white-space: nowrap;
+  border-left: 1px solid var(--ink-hairline);
+}
+#fontCtl button { padding: 5px 7px; }
+#fontCtl #fontMinus { border-right: none; font-size: 0.66rem; }
+#fontCtl #fontPlus { font-size: 0.86rem; }
+
+#lang {
+  padding: 5px 8px;
+  border-radius: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  /* the flag sits under the label, so keep the paper colour as the base layer */
+  background-color: var(--surface-control);
+  background-blend-mode: multiply;
+  transition: background-image var(--speed-drawer) ease, background-color var(--speed-fast);
+}
+/* Aged, faded flags — never the saturated modern hues.
+   Drawn as SVGs and stretched to the button (`100% 100%`, and the files carry
+   preserveAspectRatio="none"), so the Union flag's saltire runs true
+   corner-to-corner. CSS gradient stripes cannot get that geometry right at an
+   arbitrary aspect ratio — they were the reason the crosses looked wrong. */
+:root[data-locale="fr"] #lang {
+  background-image: url("../assets/flag-fr.svg");
+  background-size: 100% 100%;
+}
+:root[data-locale="en"] #lang {
+  background-image: url("../assets/flag-en.svg");
+  background-size: 100% 100%;
+}
+#lang:hover { background-color: var(--land-hover); }
+
+/* ---- Search ---- */
+#search-wrap { position: absolute; top: 72px; left: 18px; z-index: 26; width: 232px; }
+#search {
+  width: 100%;
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  color: var(--ink);
+  background: var(--surface-panel);
+  border: var(--border-card);
+  padding: 8px 12px;
+  outline: none;
+  box-shadow: var(--shadow-input);
+}
+#search::placeholder { color: var(--ink-soft); font-style: italic; opacity: 0.8; }
+#results {
+  margin-top: 4px;
+  max-height: 300px;
+  overflow-y: auto;
+  background: var(--surface-note);
+  border: var(--border-card);
+  box-shadow: var(--shadow-float);
+  display: none;
+}
+#results.show { display: block; }
+#results .res {
+  padding: 6px 12px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--ink-hairline);
+  transition: background var(--speed-quick);
+}
+#results .res:last-child { border-bottom: none; }
+#results .res:hover, #results .res.sel { background: var(--surface-hover-strong); }
+#results .rn { font-family: var(--font-display); font-size: 0.86rem; color: var(--ink); }
+#results .rm { font-size: 0.72rem; font-style: italic; color: var(--gold); margin-left: 6px; }
+#results .rk {
+  display: inline-block;
+  font-size: 0.6rem;
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--crimson);
+  border: 1px solid rgba(138, 47, 34, 0.5);
+  padding: 0 4px;
+  margin-right: 7px;
+  vertical-align: 1px;
+}
+#results .empty {
+  padding: 8px 12px;
+  font-style: italic;
+  color: var(--ink-soft);
+  font-size: 0.82rem;
+}
+
+/* ---- Legend ---- */
+#legend {
+  position: absolute;
+  left: 18px;
+  bottom: 46px;
+  z-index: 24;
+  width: 232px;
+  max-height: 46vh;
+  overflow-y: auto;
+  display: none;
+  background: var(--surface-panel);
+  border: var(--border-card);
+  box-shadow: var(--shadow-float);
+  padding: 10px 12px;
+}
+#legend.show { display: block; }
+#legend h3 {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--crimson);
+  margin: 0 0 8px;
+  border-bottom: 1px solid var(--ink-faint);
+  padding-bottom: 5px;
+}
+#legend .row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 3px 4px;
+  cursor: pointer;
+  transition: background var(--speed-quick);
+}
+#legend .row:hover { background: var(--surface-hover-strong); }
+#legend .row.sel {
+  background: var(--surface-selected);
+  border-left: 3px solid var(--crimson);
+  padding-left: 6px;
+}
+#legend .row.sel .ln { color: var(--crimson); }
+#legend .sw {
+  width: 13px; height: 13px;
+  flex: 0 0 13px;
+  border: var(--border-swatch);
+  transform: translateY(2px);
+}
+#legend .ln {
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  color: var(--ink);
+  line-height: 1.2;
+}
+#legend .le { display: block; font-size: 0.68rem; font-style: italic; color: var(--gold); }
+
+/* ---- Field photographs ---- */
+li.emprow { display: flex; gap: 10px; align-items: flex-start; }
+li.emprow > div:last-child { min-width: 0; }
+.thumb {
+  width: 46px; height: 46px;
+  flex: 0 0 46px;
+  display: none;
+  background: var(--paper-6) center/cover no-repeat;
+  border: var(--border-frame);
+  box-shadow: var(--shadow-chip);
+  filter: var(--filter-sepia);
+}
+.thumb.on { display: block; }
+.wframe {
+  margin: 0 0 12px;
+  padding: 5px 5px 6px;
+  display: none;
+  background: var(--paper-2);
+  border: var(--border-frame);
+  box-shadow: var(--shadow-input);
+  transform: var(--tilt-frame);
+}
+.wframe.on { display: block; }
+.wframe img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  display: block;
+  border: var(--border-card);
+  filter: var(--filter-sepia-strong);
+}
+.extract {
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--ink-soft);
+  margin: 0 0 12px;
+}
+.links { margin: 0 0 16px; display: flex; flex-wrap: wrap; gap: 8px; }
+.links a {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--crimson);
+  text-decoration: none;
+  border: 1px solid rgba(138, 47, 34, 0.45);
+  border-bottom: 1px solid rgba(138, 47, 34, 0.45);
+  padding: 4px 9px;
+  background: var(--surface-link);
+  transition: background var(--speed-fast);
+}
+.links a:hover { background: rgba(138, 47, 34, 0.16); }
+.rowlink {
+  font-size: 0.7rem;
+  font-style: italic;
+  color: var(--crimson);
+  text-decoration: none;
+  border-bottom: var(--underline-link);
+}
+.rowlink:hover { border-bottom-style: solid; }
+
+/* ---- Footer & loading ---- */
+footer {
+  position: absolute;
+  bottom: 14px; left: 0; right: 0;
+  z-index: 20;
+  text-align: center;
+  font-style: italic;
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  pointer-events: none;
+}
+footer .swatch {
+  display: inline-block;
+  width: 13px; height: 13px;
+  background: var(--land-empire);
+  border: var(--border-swatch);
+  vertical-align: -2px;
+  margin: 0 3px;
+}
+
+#loading {
+  position: absolute;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  letter-spacing: 0.2em;
+  color: var(--ink);
+  font-size: 1rem;
+}
+
+/* ---- Small screens ---- */
+@media (max-width: 640px) {
+  #panel {
+    width: 100%;
+    height: auto;
+    inset: auto 0 0 0;
+    padding: 20px 20px 30px;
+    border-left: none;
+    border-top: var(--border-panel);
+    transform: translateY(105%);
+    max-height: 62%;
+    box-shadow: 0 -8px 24px rgba(30, 16, 6, 0.4);
+  }
+  #panel.open { transform: translateY(0); }
+  #panelClose { top: 16px; }
+  #timeline { bottom: 8px; gap: 8px; padding: 8px 12px; }
+  #timeline button { padding: 4px 6px; font-size: 0.68rem; }
+  #year { min-width: 80px; font-size: 0.8rem; }
+  footer { display: none; }
+  #search-wrap { width: 46vw; }
+  #legend { width: 42vw; bottom: 54px; max-height: 34vh; }
+}

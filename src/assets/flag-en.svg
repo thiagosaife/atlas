@@ -1,0 +1,25 @@
+<!-- Union flag, aged and muted. preserveAspectRatio="none" so the saltire runs
+     true corner-to-corner however wide the button is. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 60" preserveAspectRatio="none">
+  <g opacity="0.34">
+    <rect width="120" height="60" fill="#2e3d5c"/>
+    <!-- white saltire, corner to corner -->
+    <g stroke="#f4e7c8" stroke-width="13">
+      <line x1="0" y1="0" x2="120" y2="60"/>
+      <line x1="120" y1="0" x2="0" y2="60"/>
+    </g>
+    <!-- red saltire over it -->
+    <g stroke="#8a2f22" stroke-width="5">
+      <line x1="0" y1="0" x2="120" y2="60"/>
+      <line x1="120" y1="0" x2="0" y2="60"/>
+    </g>
+    <!-- white cross -->
+    <g stroke="#f4e7c8" stroke-width="20">
+      <line x1="60" y1="0" x2="60" y2="60"/>
+    </g>
+    <line x1="0" y1="30" x2="120" y2="30" stroke="#f4e7c8" stroke-width="20"/>
+    <!-- red cross of St George -->
+    <line x1="60" y1="0" x2="60" y2="60" stroke="#8a2f22" stroke-width="11"/>
+    <line x1="0" y1="30" x2="120" y2="30" stroke="#8a2f22" stroke-width="11"/>
+  </g>
+</svg>

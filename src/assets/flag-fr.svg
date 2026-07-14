@@ -1,0 +1,8 @@
+<!-- Tricolour, aged and muted. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 60" preserveAspectRatio="none">
+  <g opacity="0.34">
+    <rect x="0" width="40" height="60" fill="#2e3d5c"/>
+    <rect x="40" width="40" height="60" fill="#f4e7c8"/>
+    <rect x="80" width="40" height="60" fill="#8a2f22"/>
+  </g>
+</svg>

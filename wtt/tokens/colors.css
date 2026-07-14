@@ -1,0 +1,73 @@
+/* ============================================================
+   Long Gone Empires — colour tokens
+   The world is old paper: every colour lives in a warm, aged,
+   low-chroma sepia range. Never use pure white (#fff), pure
+   black (#000), or cool/saturated hues.
+   New colours: keep them in oklch hue 55–95 (paper/ink) or
+   match the era palette's muted chroma (C ≈ 0.06–0.09).
+   ============================================================ */
+:root {
+  /* ---- Paper ramp (lightest → darkest parchment) ---- */
+  --paper-0: #f4e7c8;   /* highlight stroke on markers */
+  --paper-1: #f2e3c0;   /* torn-note top */
+  --paper-2: #efe0bc;   /* panel top, control faces */
+  --paper-3: #e6d2a6;   /* torn-note bottom */
+  --paper-4: #e2cd9f;   /* panel bottom */
+  --paper-5: #d9c29a;   /* base parchment */
+  --paper-6: #cdb082;   /* land at rest */
+  --paper-7: #b89a68;   /* page edge */
+  --paper-8: #93764a;   /* darkest page corner */
+
+  /* ---- Ink ---- */
+  --ink: #40260f;                       /* primary text */
+  --ink-soft: #5c3a1e;                  /* secondary text */
+  --ink-faint: rgba(90, 58, 30, 0.4);   /* soft rules/dividers */
+  --ink-hairline: rgba(90, 58, 30, 0.18);
+
+  /* ---- Line / border browns ---- */
+  --line-1: #a9895a;   /* card + control borders */
+  --line-2: #9c7c4c;   /* double panel borders */
+  --line-3: #8a6b3e;   /* photo-frame borders */
+  --line-4: #7a5a30;   /* map country strokes */
+  --line-5: #6f5230;   /* graticule */
+
+  /* ---- Accents ---- */
+  --gold: #b8862f;      /* era text, hover washes */
+  --gilt: #e0b64d;      /* hover/selection fill (land-hover) */
+  --crimson: #8a2f22;   /* labels, links, routes, markers */
+
+  /* ---- Surround ---- */
+  --night: #1c140b;     /* page letterbox behind the parchment */
+
+  /* ---- Map ---- */
+  --sea: #a9b89b;
+  --land: #cdb082;
+  --land-empire: #c69a5a;
+  --land-hover: var(--gilt);
+
+  /* ---- Era palette (realm colours; muted, aged) ----
+     Assigned so neighbouring realms never share a hue. */
+  --era-1: #b46a4d;   /* fired clay */
+  --era-2: #c39a41;   /* ochre */
+  --era-3: #5f867e;   /* verdigris */
+  --era-4: #90566a;   /* faded plum */
+  --era-5: #5f6f92;   /* dusk lapis */
+  --era-6: #869a5b;   /* olive */
+  --era-7: #a06a3e;   /* leather */
+  --era-8: #7a7f9c;   /* slate */
+  --era-9: #728c6f;   /* sage */
+
+  /* ---- Semantic aliases ---- */
+  --text-body: var(--ink);
+  --text-soft: var(--ink-soft);
+  --text-label: var(--crimson);       /* uppercase Cinzel labels */
+  --text-era: var(--gold);            /* italic date ranges */
+  --surface-page: radial-gradient(ellipse at 50% 40%, #e7d3ab 0%, #d4bb8d 45%, #b89a68 78%, #93764a 100%);
+  --surface-note: linear-gradient(135deg, var(--paper-1) 0%, var(--paper-3) 100%);
+  --surface-panel: linear-gradient(135deg, var(--paper-2) 0%, var(--paper-4) 100%);
+  --surface-control: var(--paper-2);
+  --surface-hover: rgba(184, 134, 47, 0.15);     /* gold wash */
+  --surface-hover-strong: rgba(184, 134, 47, 0.22);
+  --surface-selected: rgba(138, 47, 34, 0.14);   /* crimson wash */
+  --surface-link: rgba(138, 47, 34, 0.06);
+}
