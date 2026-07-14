@@ -8,7 +8,7 @@ const r = (p: string) => fileURLToPath(new URL(p, import.meta.url));
 const base = process.env.BASE_PATH ?? "/";
 
 export default defineConfig({
-  base,
+  base: "/atlas/",
   resolve: {
     alias: {
       "@domain": r("./src/domain"),
