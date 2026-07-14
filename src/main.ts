@@ -24,6 +24,7 @@ import { LegendView } from "@ui/legend";
 import { TimelineView } from "@ui/timeline";
 import { SearchView } from "@ui/search";
 import { ChromeView, mountFontControl } from "@ui/chrome";
+import { PatinaView } from "@ui/patina";
 
 const WORLD_URL = `${import.meta.env.BASE_URL}countries-110m.json`;
 
@@ -109,6 +110,8 @@ async function main(): Promise<void> {
     },
   });
   const chrome = new ChromeView(store, translators);
+  // the sheet itself ages as the timeline advances
+  const patina = new PatinaView(document.documentElement);
 
   mountFontControl();
   must<HTMLButtonElement>("#panelClose").addEventListener("click", () => store.reset());
@@ -159,6 +162,7 @@ async function main(): Promise<void> {
     frame = buildFrame(state, t, atlas, localizer);
 
     chrome.render(frame);
+    patina.render(frame);
     map.paint(frame);
     panel.render(frame);
     legend.render(frame);
