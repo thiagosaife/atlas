@@ -23,11 +23,12 @@ import {
 import "d3-transition"; // extends Selection with .transition()
 
 import type { CountryName, Coords, EmpireId } from "@domain/types";
-import type { World, CountryProps } from "@services/geography";
+import type { World, CountryProps, Relief, ReliefProps } from "@services/geography";
 import type { Frame } from "./frame";
 import type { Feature, Geometry } from "geojson";
 
 type CountryFeature = Feature<Geometry, CountryProps>;
+type ReliefFeature = Feature<Geometry, ReliefProps>;
 
 interface Marker {
   readonly id: EmpireId;
@@ -74,6 +75,7 @@ export class MapView {
   private readonly svg: Selection<SVGSVGElement, unknown, null, undefined>;
   private readonly gRoot: Selection<SVGGElement, unknown, null, undefined>;
   private readonly gCountries: Selection<SVGGElement, unknown, null, undefined>;
+  private readonly gRelief: Selection<SVGGElement, unknown, null, undefined>;
   private readonly gGlobe: Selection<SVGGElement, unknown, null, undefined>;
   private readonly gDecor: Selection<SVGGElement, unknown, null, undefined>;
   private readonly gMarkers: Selection<SVGGElement, unknown, null, undefined>;
@@ -89,20 +91,31 @@ export class MapView {
     svgEl: SVGSVGElement,
     stage: HTMLElement,
     private readonly world: World,
+    relief: Relief,
     cb: MapCallbacks,
   ) {
     this.stage = stage;
     this.cb = cb;
     this.svg = select(svgEl);
-    this.defineGlobeShading();
+    const defs = this.svg.append("defs");
+    this.defineGlobeShading(defs);
+    this.defineReliefPatterns(defs);
     this.gRoot = this.svg.append("g");
     this.gCountries = this.gRoot.append("g");
-    // shading rides over the land so the whole disc reads as a sphere, but under
+    // relief sits over the land, so a range still reads across an empire's fill
+    this.gRelief = this.gRoot.append("g");
+    // shading rides over both so the whole disc reads as a sphere, but under
     // the chart lines and markers, which must stay crisp
     this.gGlobe = this.gRoot.append("g");
     this.gDecor = this.gRoot.append("g");
     this.gMarkers = this.gRoot.append("g");
     this.path = geoPath(this.projection);
+
+    this.gRelief
+      .selectAll<SVGPathElement, ReliefFeature>("path.relief")
+      .data(relief.features)
+      .join("path")
+      .attr("class", (d) => `relief ${d.properties.kind}`);
 
     this.gGlobe
       .append("path")
@@ -160,6 +173,59 @@ export class MapView {
   }
 
   /**
+   * The relief textures.
+   *
+   * Two conventions straight off an old chart: ranges get **chevrons** — little
+   * carets marching over the range, the way a draughtsman would draw hills — and
+   * plateaus get a **stipple** of dots. Neither pretends to know an elevation;
+   * they say "high ground here", which is exactly what a hand-drawn chart says.
+   *
+   * The patterns are in user space, so they magnify with the map: you are zooming
+   * into a printed sheet, and the printed texture grows with it.
+   */
+  private defineReliefPatterns(defs: Selection<SVGDefsElement, unknown, null, undefined>): void {
+    const chevrons = defs
+      .append("pattern")
+      .attr("id", "relief-mtn")
+      .attr("patternUnits", "userSpaceOnUse")
+      .attr("width", 7)
+      .attr("height", 6);
+    chevrons.append("rect").attr("width", 7).attr("height", 6).attr("fill", "rgba(150,112,64,0.10)");
+    chevrons
+      .append("path")
+      // two carets, offset, so the rows interlock instead of forming stripes
+      .attr("d", "M0.8 4.4 L2.4 1.6 L4 4.4 M4.2 5.6 L5.2 3.9 L6.2 5.6")
+      .attr("fill", "none")
+      .attr("stroke", "#7a5a30")
+      .attr("stroke-width", 0.55)
+      .attr("stroke-linecap", "round")
+      .attr("stroke-linejoin", "round")
+      .attr("opacity", 0.75);
+
+    const stipple = defs
+      .append("pattern")
+      .attr("id", "relief-plateau")
+      .attr("patternUnits", "userSpaceOnUse")
+      .attr("width", 6)
+      .attr("height", 6);
+    stipple.append("rect").attr("width", 6).attr("height", 6).attr("fill", "rgba(150,112,64,0.08)");
+    const dots: [number, number][] = [
+      [1.4, 1.4],
+      [4.3, 3.1],
+      [2.6, 4.7],
+    ];
+    for (const [cx, cy] of dots) {
+      stipple
+        .append("circle")
+        .attr("cx", cx)
+        .attr("cy", cy)
+        .attr("r", 0.42)
+        .attr("fill", "#7a5a30")
+        .attr("opacity", 0.6);
+    }
+  }
+
+  /**
    * Give the disc some volume.
    *
    * Two washes over the sphere: limb darkening, which deepens sharply toward the
@@ -168,9 +234,7 @@ export class MapView {
    * sphere's own path, so they follow the projection exactly and travel with the
    * map when it is panned or zoomed.
    */
-  private defineGlobeShading(): void {
-    const defs = this.svg.append("defs");
-
+  private defineGlobeShading(defs: Selection<SVGDefsElement, unknown, null, undefined>): void {
     const shade = defs
       .append("radialGradient")
       .attr("id", "globe-shade")
@@ -218,6 +282,7 @@ export class MapView {
       this.world.countries,
     );
     this.gCountries.selectAll<SVGPathElement, never>("path").attr("d", this.path as never);
+    this.gRelief.selectAll<SVGPathElement, never>("path").attr("d", this.path as never);
     this.gGlobe.selectAll<SVGPathElement, never>("path").attr("d", this.path as never);
 
     // Parallels are drawn as real geography, so they curve with the projection
@@ -337,6 +402,7 @@ export class MapView {
       .selectAll<SVGTextElement, (typeof PARALLELS)[number]>("text.chartlabel")
       .attr("transform", (d) => place([LABEL_LNG, d.lat]))
       .attr("dy", -3);
+
   }
 
   /**

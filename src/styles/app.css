@@ -412,6 +412,18 @@ svg#map.grabbing { cursor: grabbing; }
 .country.focus { stroke: var(--crimson); stroke-width: 1.8px; opacity: 1 !important; }
 .country.backdrop { opacity: 0.28; }
 
+/* ---- Relief ----
+   Natural Earth's mountain ranges and plateaus, hachured. Drawn over the land so
+   a range still reads across an empire's fill, but kept faint: it is the ground
+   the empires were fought over, not the subject. */
+.relief {
+  pointer-events: none; /* never steals a hover from the country beneath */
+  stroke: none;
+  opacity: 0.6;
+}
+.relief.mtn { fill: url(#relief-mtn); }
+.relief.plateau { fill: url(#relief-plateau); }
+
 .graticule {
   fill: none;
   stroke: var(--line-5);

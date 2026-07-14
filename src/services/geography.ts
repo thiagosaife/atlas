@@ -22,6 +22,32 @@ export interface World {
   readonly names: ReadonlySet<CountryName>;
 }
 
+/** A mountain range or plateau, for the hachured relief. */
+export interface ReliefProps {
+  readonly name: string;
+  readonly nameFr: string;
+  readonly kind: "mtn" | "plateau";
+}
+
+export type Relief = FeatureCollection<Geometry, ReliefProps>;
+
+/**
+ * Natural Earth's mountain ranges and plateaus (see scripts/prep-relief.mjs).
+ *
+ * Decoration, strictly: if it fails to load the atlas is still an atlas, so this
+ * never throws — it just comes back empty and the map draws without relief.
+ */
+export async function loadRelief(url: string): Promise<Relief> {
+  const empty: Relief = { type: "FeatureCollection", features: [] };
+  try {
+    const res = await fetch(url);
+    if (!res.ok) return empty;
+    return (await res.json()) as Relief;
+  } catch {
+    return empty;
+  }
+}
+
 type WorldTopology = Topology<{ countries: GeometryCollection<CountryProps> }>;
 
 export async function loadWorld(url: string): Promise<World> {

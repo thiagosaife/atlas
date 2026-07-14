@@ -12,7 +12,7 @@ import { createAtlas } from "@domain/atlas";
 import { midEra } from "@domain/era";
 import type { CountryName, EmpireId } from "@domain/types";
 import { resolveLocale, Translator, LOCALES, type Locale } from "@i18n/index";
-import { loadWorld } from "@services/geography";
+import { loadWorld, loadRelief } from "@services/geography";
 import { createStore } from "@state/store";
 
 import { must } from "@ui/dom";
@@ -27,6 +27,7 @@ import { ChromeView, mountFontControl } from "@ui/chrome";
 import { PatinaView } from "@ui/patina";
 
 const WORLD_URL = `${import.meta.env.BASE_URL}countries-110m.json`;
+const RELIEF_URL = `${import.meta.env.BASE_URL}relief-50m.json`;
 
 async function main(): Promise<void> {
   const stage = must<HTMLElement>("#stage");
@@ -38,9 +39,12 @@ async function main(): Promise<void> {
 
   const store = createStore({ locale: resolveLocale() });
 
+  // The borders are the atlas and must load; the relief is decoration and
+  // resolves empty on failure, so it can be fetched alongside without risk.
   let world;
+  let relief;
   try {
-    world = await loadWorld(WORLD_URL);
+    [world, relief] = await Promise.all([loadWorld(WORLD_URL), loadRelief(RELIEF_URL)]);
   } catch (err) {
     loading.textContent = translators[store.get().locale].ui.loadError;
     console.error(err);
@@ -71,7 +75,7 @@ async function main(): Promise<void> {
   // ---- views ----
   const notes = must<HTMLElement>("#notes");
 
-  const map = new MapView(must<SVGSVGElement>("#map"), stage, world, {
+  const map = new MapView(must<SVGSVGElement>("#map"), stage, world, relief, {
     onHoverLand(country, evt) {
       if (!country || !atlas.rulersOf(country).length) return tooltip.hide();
       tooltip.show(country, frame);
