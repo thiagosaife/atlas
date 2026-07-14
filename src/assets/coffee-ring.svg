@@ -17,13 +17,13 @@
 
     <!-- the wicking edge of a dried liquid is never smooth -->
     <filter id="wick" x="-12%" y="-12%" width="124%" height="124%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.06" numOctaves="4" seed="9" result="n"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.06" numOctaves="4" seed="4" result="n"/>
       <feDisplacementMap in="SourceGraphic" in2="n" scale="2.6" xChannelSelector="R" yChannelSelector="G"/>
     </filter>
 
     <!-- granular blotching within the rim -->
     <filter id="mottle" x="-12%" y="-12%" width="124%" height="124%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.12" numOctaves="3" seed="4" result="n"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.12" numOctaves="3" seed="37" result="n"/>
       <feColorMatrix type="saturate" values="0" in="n" result="g"/>
       <feComponentTransfer in="g" result="a"><feFuncA type="linear" slope="0.45"/></feComponentTransfer>
       <feComposite in="a" in2="SourceGraphic" operator="in"/>

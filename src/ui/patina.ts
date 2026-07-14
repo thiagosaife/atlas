@@ -19,12 +19,15 @@ export class PatinaView {
     // (Tying this to `timelineOn` would open a brand-new map onto a filthy sheet.)
     const p = patinaAt(frame.state.year);
 
+    const l = this.last;
     if (
-      this.last &&
-      this.last.paper === p.paper &&
-      this.last.ink === p.ink &&
-      this.last.stain === p.stain &&
-      this.last.burn === p.burn
+      l &&
+      l.paper === p.paper &&
+      l.ink === p.ink &&
+      l.wear === p.wear &&
+      l.stain1 === p.stain1 &&
+      l.stain2 === p.stain2 &&
+      l.burn === p.burn
     ) {
       return; // nothing moved — don't touch the style object every frame
     }
@@ -33,7 +36,9 @@ export class PatinaView {
     const s = this.root.style;
     s.setProperty("--age-paper", p.paper.toFixed(3));
     s.setProperty("--age-ink", p.ink.toFixed(3));
-    s.setProperty("--age-stain", p.stain.toFixed(3));
+    s.setProperty("--age-wear", p.wear.toFixed(3));
+    s.setProperty("--age-stain-1", p.stain1.toFixed(3));
+    s.setProperty("--age-stain-2", p.stain2.toFixed(3));
     s.setProperty("--age-burn", p.burn.toFixed(3));
   }
 }

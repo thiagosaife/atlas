@@ -6,10 +6,12 @@
    sheet fresh off the press, 1 is the chart as it reaches us. Every wear layer
    below multiplies its own opacity by one of these. */
 :root {
-  --age-paper: 1; /* yellowing, grime, grain, vignette */
-  --age-ink: 1;   /* the pen scribbles */
-  --age-stain: 1; /* coffee ring, foxing, fold creases */
-  --age-burn: 1;  /* the charred edge */
+  --age-paper: 1;   /* yellowing, grime, grain, vignette */
+  --age-ink: 1;     /* the pen scribbles */
+  --age-wear: 1;    /* foxing and fold creases */
+  --age-stain-1: 1; /* the first cup */
+  --age-stain-2: 1; /* the second cup, centuries later */
+  --age-burn: 1;    /* the charred edge */
 }
 
 * { box-sizing: border-box; }
@@ -102,26 +104,52 @@ html, body {
   filter: sepia(1) saturate(1.7) contrast(1.45) brightness(1.06);
 }
 
-/* ---- Patina: one coffee ring, plus the folds ----
-   The ring is a generated SVG (scripts/gen-coffee-ring.mjs): a real one has an
-   irregular rim that pools into fat lobes, creeps thin enough to nearly break,
-   and carries dark specks of grounds — none of which a CSS gradient can fake.
-   Sits above the map so it reads as spilled *on* the chart, but below the
-   floating chrome so nothing legible is obscured; `multiply` lets the geography
-   show through the liquid. */
+/* ---- Patina: the slow wear — foxing and fold creases ---- */
 #patina {
   position: absolute;
   inset: 0;
   z-index: 12;
   pointer-events: none;
   mix-blend-mode: multiply;
-  opacity: calc(0.82 * var(--age-stain));
+  opacity: calc(0.82 * var(--age-wear));
   transition: opacity 0.25s linear;
+}
+
+/* ---- The spills ----
+   Generated SVGs (scripts/gen-coffee-ring.mjs): a real ring has an irregular rim
+   that pools inward, splits into bands as it dries, and carries dark specks of
+   grounds — none of which a CSS gradient can fake. Above the map so they read as
+   spilled *on* the chart, below the chrome so nothing legible is obscured;
+   `multiply` lets the geography show through the liquid.
+
+   A spill is an event, not a process: these switch on at their moment, with just
+   enough transition to land rather than flicker. Everything else on the sheet
+   fades over centuries — these two arrive with a thud. */
+#stain-a,
+#stain-b {
+  position: absolute;
+  inset: 0;
+  z-index: 12;
+  pointer-events: none;
+  mix-blend-mode: multiply;
   background-repeat: no-repeat;
+  transition: opacity 0.14s ease-out;
+}
+/* The first cup, over the South Atlantic. Kept off the lower-left corner: the
+   legend stands there whenever the timeline is running, and would swallow the
+   spill at the very moment it is supposed to land. */
+#stain-a {
+  opacity: calc(0.82 * var(--age-stain-1));
   background-image: url("../assets/coffee-ring.svg");
-  /* out in the South Pacific: clear of the land, the legend, and the timeline bar */
-  background-position: 13% 62%;
+  background-position: 46% 60%;
   background-size: clamp(195px, 19.5vw, 293px);
+}
+/* the second, north-east over the Pacific — a different cup, smaller and paler */
+#stain-b {
+  opacity: calc(0.66 * var(--age-stain-2));
+  background-image: url("../assets/coffee-ring-2.svg");
+  background-position: 88% 18%;
+  background-size: clamp(150px, 15vw, 225px);
 }
 
 /* Foxing: the small rust-brown age spots that bloom on stored paper. */
