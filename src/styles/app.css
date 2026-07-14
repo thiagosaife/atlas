@@ -680,7 +680,7 @@ svg#map.grabbing { cursor: grabbing; }
 #lang:hover { background-color: var(--land-hover); }
 
 /* ---- Search ---- */
-#search-wrap { position: absolute; top: 72px; left: 18px; z-index: 26; width: 232px; }
+#search-wrap { position: absolute; top: 72px; left: 18px; z-index: 26; width: 304px; }
 #search {
   width: 100%;
   font-family: var(--font-body);

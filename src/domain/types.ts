@@ -47,6 +47,13 @@ export interface Empire {
   readonly wiki?: string;
   /** Article whose lead image best evokes the empire (a monument, not a flag). */
   readonly imageWiki?: string;
+  /**
+   * People the empire is remembered by — rulers, conquerors, thinkers. Search
+   * matches these, so "Alexander" finds Macedon and "Lenin" finds the USSR.
+   * Kept out of the region files (see src/data/figures.ts) so they read as one
+   * list; empty for empires with no famous named individual.
+   */
+  readonly figures?: readonly string[];
 }
 
 /** An empire with all text resolved for the active locale, ready to render. */
@@ -65,5 +72,7 @@ export interface LocalizedEmpire {
   readonly territoryLabels: readonly string[];
   readonly wiki: string;
   readonly imageWiki: string | null;
+  /** Notable figures, in the active locale (falls back to English). */
+  readonly figures: readonly string[];
   readonly source: Empire;
 }

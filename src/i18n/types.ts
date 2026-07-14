@@ -23,6 +23,8 @@ export interface EmpireTranslation {
   readonly capital?: string;
   /** Wikipedia article in this language, for the outbound link. */
   readonly wiki?: string;
+  /** Notable figures in this language (e.g. "Alexandre le Grand"). */
+  readonly figures?: readonly string[];
 }
 
 export type EmpireTranslations = Readonly<Partial<Record<EmpireId, EmpireTranslation>>>;

@@ -5,6 +5,7 @@
  * sees one flat list. To add a region, create the module and add it here.
  */
 import type { Empire } from "@domain/types";
+import { FIGURES } from "../figures";
 
 import { nearEast } from "./near-east";
 import { africa } from "./africa";
@@ -28,7 +29,11 @@ export const REGIONS = {
 
 export type RegionKey = keyof typeof REGIONS;
 
-/** Every charted empire, oldest first. */
+/** Every charted empire, oldest first, with notable figures folded in. */
 export const EMPIRES: readonly Empire[] = Object.values(REGIONS)
   .flat()
+  .map((e) => {
+    const figures = FIGURES[e.id];
+    return figures ? { ...e, figures } : e;
+  })
   .sort((a, b) => a.start - b.start || (a.id < b.id ? -1 : 1));

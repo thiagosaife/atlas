@@ -13,8 +13,8 @@ const ui: UiStrings = {
   loading: "UNROLLING THE MAP…",
   loadError: "The map was lost to the sands… (failed to load geography)",
 
-  searchPlaceholder: "Search an empire, land, or year…",
-  searchEmpty: "No empire, land, or year found.",
+  searchPlaceholder: "Search an empire, ruler, land, or year…",
+  searchEmpty: "No empire, ruler, land, or year found.",
   kindEmpire: "Empire",
   kindLand: "Land",
   kindYear: "Year",

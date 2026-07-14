@@ -80,6 +80,7 @@ export class Translator {
         .sort((a, b) => a.localeCompare(b, this.ui.htmlLang)),
       wiki: wikiTitle,
       imageWiki: e.imageWiki ?? null,
+      figures: t?.figures ?? e.figures ?? [],
       source: e,
     };
   }

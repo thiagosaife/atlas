@@ -25,9 +25,12 @@ npm run validate   # check the empire catalogue
   alive in the same year never share a hue.
 - **Reveal an empire** — from search, the legend, or a pinned land: its whole
   territory lights up, the rest of the world recedes, and the map frames it.
-- **Search empires, lands, and years** — `44 BC`, `-1200`, `753 AD` or
-  `1200 av. J.-C.` jump the timeline to that moment and list every realm standing
-  in it. A bare `1200` offers both readings (BC and AD), and either language's
+- **Search empires, rulers, lands, and years** — search a person and land on
+  their realm: `Alexander` finds Macedon, `Lenin` the USSR, `the great` every
+  ruler who earned the epithet; the matched name is shown as the reason. `44 BC`,
+  `-1200`, `753 AD` or `1200 av. J.-C.` jump the timeline to that moment and list
+  every realm standing in it. A bare `1200` offers both readings (BC and AD), and
+  either language's
   era words are understood whichever locale you're in.
 - **Field notes** — sepia thumbnails, a summary, and Wikipedia/Britannica links,
   lazily fetched. ~60 empires point at a curated monument article so the hero image

@@ -1,10 +1,12 @@
 /**
- * Search over empires, lands, and years.
+ * Search over empires, lands, years, and the people who ruled them.
  *
  * Matches against the *localized* labels (so "Empire ottoman" is findable in
  * French) and is accent- and case-insensitive, so "mesopotamie" finds
- * "Mésopotamie". A query that reads as a year ("1200 BC", "-1200",
- * "1200 av. J.-C.") also offers to jump the timeline there.
+ * "Mésopotamie". An empire is also found by its notable figures — "Alexander"
+ * finds Macedon, "Lenin" the USSR — and the matched person is shown as the
+ * reason. A query that reads as a year ("1200 BC", "1200 av. J.-C.") offers to
+ * jump the timeline there.
  */
 import type { CountryName, EmpireId, LocalizedEmpire, Year } from "./types";
 import { FIRST_YEAR, LAST_YEAR, type EraWords } from "./era";
@@ -87,8 +89,23 @@ export function createSearchIndex(
   landMeta: (count: number) => string,
   years: YearLookup,
 ): SearchIndex {
-  // Precompute folded keys once per locale change, not once per keystroke.
-  const empireKeys = empires.map((e) => ({ e, key: fold(e.name) }));
+  // Precompute folded keys once per locale change, not once per keystroke. Each
+  // empire also carries its figures — the localized ones and the English ones,
+  // deduped by folded key — so "Napoléon" and "Napoleon" both land, whichever
+  // language you are in, and the matched name is shown as the reason.
+  const empireKeys = empires.map((e) => {
+    const figures = new Map<string, string>(); // folded key -> display label
+    for (const f of e.figures) figures.set(fold(f), f);
+    for (const f of e.source.figures ?? []) {
+      const k = fold(f);
+      if (!figures.has(k)) figures.set(k, f);
+    }
+    return {
+      e,
+      key: fold(e.name),
+      figures: [...figures].map(([key, label]) => ({ key, label })),
+    };
+  });
   const landKeys = lands.map((l) => ({ l, key: fold(l.label) }));
 
   return {
@@ -109,9 +126,17 @@ export function createSearchIndex(
       }
 
       let empireCount = 0;
-      for (const { e, key } of empireKeys) {
-        if (!key.includes(q)) continue;
-        hits.push({ kind: "empire", id: e.id, label: e.name, meta: e.era });
+      for (const { e, key, figures } of empireKeys) {
+        // the era is the subtitle for a name match; for a figure match it is the
+        // person, so the row explains why the empire came up
+        let meta: string | null = null;
+        if (key.includes(q)) {
+          meta = e.era;
+        } else {
+          meta = figures.find((f) => f.key.includes(q))?.label ?? null;
+        }
+        if (meta === null) continue;
+        hits.push({ kind: "empire", id: e.id, label: e.name, meta });
         if (++empireCount >= MAX_EMPIRES) break;
       }
 

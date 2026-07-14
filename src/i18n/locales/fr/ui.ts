@@ -12,8 +12,8 @@ export const ui: UiStrings = {
   loading: "ON DÉROULE LA CARTE…",
   loadError: "La carte s'est perdue dans les sables… (géographie non chargée)",
 
-  searchPlaceholder: "Chercher un empire, une terre ou une année…",
-  searchEmpty: "Aucun empire, terre ou année trouvés.",
+  searchPlaceholder: "Chercher un empire, un souverain, une terre ou une année…",
+  searchEmpty: "Aucun empire, souverain, terre ou année trouvés.",
   kindEmpire: "Empire",
   kindLand: "Terre",
   kindYear: "Année",
