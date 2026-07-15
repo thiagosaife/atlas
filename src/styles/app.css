@@ -272,6 +272,12 @@ html, body {
     linear-gradient(45deg, rgba(46, 61, 92, 0.55) 0%, transparent 24%),
     linear-gradient(315deg, rgba(46, 61, 92, 0.55) 0%, transparent 24%);
 }
+/* Brazil: an olive field with a gold lozenge glowing at the centre */
+:root[data-locale="pt"] #tint {
+  background-image:
+    radial-gradient(ellipse 42% 42% at 50% 50%, rgba(184, 134, 47, 0.5), transparent 68%),
+    radial-gradient(ellipse 80% 80% at 50% 50%, rgba(111, 127, 74, 0.45), transparent 78%);
+}
 
 /* ---- Chart marginalia ---- */
 #chartmarks {
@@ -625,6 +631,9 @@ svg#map.grabbing { cursor: grabbing; }
   padding: 5px 9px;
   cursor: pointer;
   white-space: nowrap;
+  text-align: center;
+  /* a <select> left-aligns its chosen value unless told otherwise */
+  text-align-last: center;
   transition: background var(--speed-fast);
 }
 /* `#lang` is excluded: the shorthand would wipe its flag background-image.
@@ -675,6 +684,10 @@ svg#map.grabbing { cursor: grabbing; }
 }
 :root[data-locale="en"] #lang {
   background-image: url("../assets/flag-en.svg");
+  background-size: 100% 100%;
+}
+:root[data-locale="pt"] #lang {
+  background-image: url("../assets/flag-pt.svg");
   background-size: 100% 100%;
 }
 #lang:hover { background-color: var(--land-hover); }

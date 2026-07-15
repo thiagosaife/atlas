@@ -1,0 +1,9 @@
+<!-- Brazilian flag, aged and muted to sit on parchment: olive field, a gold
+     lozenge, a dusty-blue disc. preserveAspectRatio="none" to fill the button. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 60" preserveAspectRatio="none">
+  <g opacity="0.34">
+    <rect width="120" height="60" fill="#6f7f4a"/>
+    <polygon points="60,7 110,30 60,53 10,30" fill="#b8862f"/>
+    <circle cx="60" cy="30" r="13" fill="#4f5f82"/>
+  </g>
+</svg>

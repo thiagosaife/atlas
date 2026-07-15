@@ -5,7 +5,8 @@ styled as a weathered expedition map in the spirit of 1930s pulp adventure.
 Hover a land to see who ruled it, slide through the ages to watch realms rise and
 fall, and reveal any empire's full territory across today's borders.
 
-**English and French.** Vanilla TypeScript + D3, no UI framework. ~46 kB gzipped.
+**English, French & Brazilian Portuguese.** Vanilla TypeScript + D3, no UI
+framework. ~56 kB gzipped.
 
 ```bash
 npm install
@@ -35,9 +36,10 @@ npm run validate   # check the empire catalogue
 - **Field notes** — sepia thumbnails, a summary, and Wikipedia/Britannica links,
   lazily fetched. ~60 empires point at a curated monument article so the hero image
   is Machu Picchu, not a flag.
-- **i18n** — English and French, with the era format ("120 BC" / "120 av. J.-C."),
-  country names, empire names, and even the Wikipedia edition switching with the
-  locale. Picks up `?lang=fr`, a saved choice, or the browser language.
+- **i18n** — English, French, and Brazilian Portuguese, with the era format
+  ("120 BC" / "120 av. J.-C." / "120 a.C."), country names, empire names, rulers,
+  and even the Wikipedia edition switching with the locale. Picks up `?lang=pt`,
+  a saved choice, or the browser language.
 - **Zoom & pan** — scroll to zoom (12×); borders stay crisp and capital labels keep
   a constant size.
 - **A sheet that's been in the field** — coffee rings, blots and fold creases stain

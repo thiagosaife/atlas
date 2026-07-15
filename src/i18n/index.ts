@@ -10,12 +10,13 @@ import type { CountryName, Empire, LocalizedEmpire } from "@domain/types";
 import { formatEra } from "@domain/era";
 import { en } from "./locales/en";
 import { fr } from "./locales/fr";
+import { pt } from "./locales/pt";
 import { DEFAULT_LOCALE, isLocale, type Locale, type LocaleBundle, type UiStrings } from "./types";
 
 export type { Locale, UiStrings } from "./types";
 export { LOCALES } from "./types";
 
-const BUNDLES: Record<Locale, LocaleBundle> = { en, fr };
+const BUNDLES: Record<Locale, LocaleBundle> = { en, fr, pt };
 const STORAGE_KEY = "atlas-locale";
 
 /** URL wins (shareable links), then the saved choice, then the browser, then English. */

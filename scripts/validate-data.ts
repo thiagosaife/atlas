@@ -14,6 +14,8 @@ import { EMPIRES, REGIONS } from "../src/data/empires/index";
 import { validateEmpires } from "../src/data/schema";
 import { empires as frEmpires } from "../src/i18n/locales/fr/empires";
 import { countries as frCountries } from "../src/i18n/locales/fr/countries";
+import { empires as ptEmpires } from "../src/i18n/locales/pt/empires";
+import { countries as ptCountries } from "../src/i18n/locales/pt/countries";
 
 const r = (p: string) => fileURLToPath(new URL(p, import.meta.url));
 
@@ -32,18 +34,26 @@ for (const g of topology.objects.countries.geometries) {
 
 const { errors, warnings } = validateEmpires(EMPIRES, {
   knownCountries,
-  translated: new Map([["fr", new Set(Object.keys(frEmpires))]]),
+  translated: new Map([
+    ["fr", new Set(Object.keys(frEmpires))],
+    ["pt", new Set(Object.keys(ptEmpires))],
+  ]),
 });
 
-// Every land an empire claims should also have a French name.
+// Every land an empire claims should also have a name in each locale.
 const claimed = new Set(EMPIRES.flatMap((e) => e.territory));
-for (const country of claimed) {
-  if (!(country in frCountries)) {
-    warnings.push({
-      empire: "—",
-      field: "i18n.fr.countries",
-      message: `"${country}" has no French name — falls back to English`,
-    });
+for (const [locale, table] of [
+  ["fr", frCountries],
+  ["pt", ptCountries],
+] as const) {
+  for (const country of claimed) {
+    if (!(country in table)) {
+      warnings.push({
+        empire: "—",
+        field: `i18n.${locale}.countries`,
+        message: `"${country}" has no ${locale} name — falls back to English`,
+      });
+    }
   }
 }
 

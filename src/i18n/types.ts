@@ -8,7 +8,7 @@
 import type { CountryName, EmpireId } from "@domain/types";
 import type { EraWords } from "@domain/era";
 
-export const LOCALES = ["en", "fr"] as const;
+export const LOCALES = ["en", "fr", "pt"] as const;
 export type Locale = (typeof LOCALES)[number];
 
 export const DEFAULT_LOCALE: Locale = "en";
